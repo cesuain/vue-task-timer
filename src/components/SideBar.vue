@@ -6,6 +6,20 @@
     <button class="button is-small" @click="handleTheme">
       Dark Mode: {{ buttonText }}
     </button>
+    <nav class="panel mt-5">
+      <ul>
+        <ul>
+          <router-link to="/" class="link">
+            <i class="fas fa-tasks"> </i>tasks
+          </router-link>
+        </ul>
+        <ui>
+          <router-link to="/projects" class="link">
+            <i class="fas fa-project-diagram"> </i>proejcts
+          </router-link>
+        </ui>
+      </ul>
+    </nav>
   </header>
 </template>
 
@@ -51,5 +65,17 @@ header {
     padding: 2.5rem;
     height: auto;
   }
+}
+.panel li {
+  margin: 8px 0;
+}
+.link {
+  color: #fff;
+}
+.link:hover {
+  color: #faf0ca;
+}
+.link.router-link-active {
+  color: #faf0ca;
 }
 </style>

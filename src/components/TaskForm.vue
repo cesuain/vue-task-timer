@@ -2,7 +2,7 @@
   <div class="box task-form">
     <div class="columns">
       <div
-        class="column is-8"
+        class="column is-5"
         role="form"
         aria-label="A form to create a new task"
       >
@@ -13,6 +13,20 @@
           v-model="taskDescription"
         />
       </div>
+      <div class="column is-3">
+        <div class="select">
+          <select v-model="idProject">
+            <option value="">Select the project</option>
+            <option
+              :value="project.id"
+              v-for="project in projects"
+              :key="project.id"
+            >
+              {{ project.name }}
+            </option>
+          </select>
+        </div>
+      </div>
       <div class="column">
         <TaskTimer @stopedTimer="completeTask" />
       </div>
@@ -21,7 +35,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
+import { useStore } from "vuex";
+import { key } from "@/store";
 import TaskTimer from "@/components/TaskTimer.vue";
 
 export default defineComponent({
@@ -33,6 +49,7 @@ export default defineComponent({
   data() {
     return {
       taskDescription: "",
+      idProject: "",
     };
   },
   methods: {
@@ -40,9 +57,17 @@ export default defineComponent({
       this.$emit("onSaveTask", {
         description: this.taskDescription,
         secondsDuration: ranTimer,
+        project: this.projects.find(project => project.id == this.idProject)
       });
       this.taskDescription = "";
     },
+  },
+  setup() {
+    const store = useStore(key);
+
+    return {
+      projects: computed(() => store.state.projects),
+    };
   },
 });
 </script>
